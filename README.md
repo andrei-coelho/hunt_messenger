@@ -1,2 +1,2 @@
 # hunt_messenger
-part of the hunt app  in python 3
+part of the hunt app in python 3
