@@ -1,11 +1,27 @@
 
-URL_BASE = "https://www.facebook.com/"
+from modules.cookie import cookie
+from pynput.keyboard import Key, Controller
+import re, time
 
+FB_PAGE = "https://www.facebook.com/"
+keyboard = Controller()
 
-def get_url():
+def get_url(id_fb):
     #verifica se o ID é uma string ou um numero
-    # se for um numero a url gerada será URL_BASE + profile.php?id={id}
-    return None
+    # se for um numero a url gerada será FB_PAGEFB_PAGE + profile.php?id={id}
+    id_fb = id_fb.strip()
+    if re.search("^[\d]+$", id_fb):
+        return f"{FB_PAGE}profile.php?id={id_fb}"
+    else:
+        return f"{FB_PAGE}{id_fb}"
 
-def send_message_for(id_profile):
-    return None
+def send_message_for(profile, driver):
+    # envia a mensagem
+    driver.get(get_url(profile['id_fb']))
+    time.sleep(3)
+    driver.find_element_by_id("u_0_1f").click()
+    time.sleep(2)
+    keyboard.type(profile['msg'])
+    keyboard.press(Key.enter)
+    keyboard.release(Key.enter)
+    
