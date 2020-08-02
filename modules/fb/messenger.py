@@ -1,5 +1,4 @@
 
-from modules.cookie import cookie
 from pynput.keyboard import Key, Controller
 import re, time
 

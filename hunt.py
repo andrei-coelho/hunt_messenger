@@ -41,12 +41,11 @@
 from modules.fb import login, messenger 
 from modules.helper import api, log
 
-
 import sys, time
 
-lista = api.get_list()
-drivers = []
-timer   = 5 # 600 = 10 minutos para cada conta
+lista         = api.get_list()
+drivers       = []
+timer         = 600 # 600 segundos = 10 minutos para cada conta
 
 def get_next_driver(keyDriver, count = 0):
 
@@ -64,6 +63,11 @@ def get_next_driver(keyDriver, count = 0):
         return get_next_driver(keyDriver, count)
 
     return [drivers[keyDriver], keyDriver]
+
+
+def close_drivers():
+    for driver in drivers:
+        driver['driver'].quit()
 
 
 if lista:
@@ -91,15 +95,6 @@ if lista:
 
         else:break
 
-
-    # chrome.quit()
-# pega e usa o cookie ou faz o login da conta selecionada
-
-    # envia a mensagem para o perfil 
-    # envia a informação para a API de que a mensagem foi enviada
-    # aguarde 2,5 minutos para executar o próximo
-
-# quando terminar informe a quantidade total de envios
-
+close_drivers()
 
 
