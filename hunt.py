@@ -44,30 +44,26 @@ from modules.helper import api, log
 import sys, time
 
 lista         = api.get_list()
-drivers       = []
-timer         = 600 # 600 segundos = 10 minutos para cada conta
+contas        = []
+timer         = 6 # 600 segundos = 10 minutos para cada conta
 
-def get_next_driver(keyDriver, count = 0):
+def get_next_account(keyAccount, count = 0):
 
-    totalDrivers   = len(drivers)
+    totalContas   = len(contas)
 
-    if(totalDrivers == 0 or count == totalDrivers):
+    if(totalContas == 0 or count == totalContas):
         return False
 
-    if(keyDriver == totalDrivers):
-        keyDriver  = 0
+    if(keyAccount == totalContas):
+        keyAccount  = 0
 
-    if(drivers[keyDriver]['keyConta'] > len(drivers[keyDriver]['contas'])):
-        keyDriver += 1
+    if(contas[keyAccount]['keyPerfil'] == len(contas[keyAccount]['perfis'])):
+        keyAccount += 1
         count     += 1
-        return get_next_driver(keyDriver, count)
+        return get_next_account(keyAccount, count)
 
-    return [drivers[keyDriver], keyDriver]
+    return [contas[keyAccount], keyAccount]
 
-
-def close_drivers():
-    for driver in drivers:
-        driver['driver'].quit()
 
 
 if lista:
@@ -76,25 +72,24 @@ if lista:
         log.start(api.get_total()) # avisa que iniciou o processo com sucesso
 
     for conta in lista:
-        driver  = login.login(conta)
-        drivers.append({"driver":driver, "keyConta":0, "contas":conta['msgs']})
+        contas.append({"conta":conta, "keyPerfil":0, "perfis":conta['msgs']})
 
-    key = 0
-    timer = int(timer / len(drivers))
+    keyConta = 0
+    timer    = int(timer / len(contas))
 
     while True:
 
-        driverObj = get_next_driver(key)
+        account = get_next_account(keyConta)
+        
+        if account:
+            
+            conta    = account[0]
+            keyConta = account[1] + 1
 
-        if driverObj:
-            driver = driverObj[0]
-            key    = driverObj[1]
-            messenger.send_message_for(driver['contas'][driver['keyConta']], driver['driver'])
-            driver['keyConta'] += 1
+            driver   = login.login(conta['conta'])
+            messenger.send_message_for(conta['perfis'][conta['keyPerfil']], driver)
+            conta['keyPerfil'] += 1 
             time.sleep(timer)
 
         else:break
-
-close_drivers()
-
 

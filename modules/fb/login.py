@@ -4,8 +4,6 @@ import os, time
 
 FB_PAGE = "https://www.facebook.com/"
 
-chrome = webdriver.Chrome()
-
 '''''''''''
     Login módulo
     Este módulo sempre retornará um driver configurado
@@ -14,6 +12,9 @@ chrome = webdriver.Chrome()
 '''''''''''
 
 def login(conta):
+
+    chrome = webdriver.Chrome()
+
     try:
         # se um arquivo de cookie exisir carregue-o
         # e seta os cookies no driver
@@ -25,13 +26,15 @@ def login(conta):
         # se não existir entra na página e gere o cookie
         return enter_in_page(chrome, conta)
 
-def enter_in_page(driver, conta):    
+
+def enter_in_page(chrome, conta):    
     # faz o login
-    driver.get(FB_PAGE)
-    cookie.save_cookies(driver, conta['email'])
-    driver.find_element_by_xpath("//input[@id='email']").send_keys(conta['email'])
-    driver.find_element_by_xpath("//input[@id='pass']").send_keys(conta['senha'])
-    driver.find_element_by_id("loginbutton").click()
+    chrome.get(FB_PAGE)
+    cookie.save_cookies(chrome, conta['email'])
+    chrome.find_element_by_xpath("//input[@id='email']").send_keys(conta['email'])
+    chrome.find_element_by_xpath("//input[@id='pass']").send_keys(conta['senha'])
+    chrome.find_element_by_id("loginbutton").click()
     time.sleep(2)
-    cookie.save_cookies(driver, conta['email'])
-    return chrome
+    cookie.save_cookies(chrome, conta['email'])
+    chrome.quit()
+    return login(conta)
