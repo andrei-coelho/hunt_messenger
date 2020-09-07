@@ -1,4 +1,5 @@
 
+from selenium.common.exceptions import NoSuchElementException
 from pynput.keyboard import Key, Controller
 import re, time
 
@@ -18,11 +19,17 @@ def send_message_for(profile, driver):
     # envia a mensagem
     driver.get(get_url(profile['id_fb']))
     time.sleep(3)
-    driver.find_element_by_xpath('//a[contains(text(), "Mensagem")]').click()
-    time.sleep(2)
-    keyboard.type(profile['msg'])
-    keyboard.press(Key.enter)
-    time.sleep(1)
-    keyboard.release(Key.enter)
-    time.sleep(1)
-    driver.quit()
+    try:
+        driver.find_element_by_xpath('//a[contains(text(), "Mensagem")]').click()
+        time.sleep(2)
+        keyboard.type(profile['msg'])
+        keyboard.press(Key.enter)
+        time.sleep(1)
+        keyboard.release(Key.enter)
+        time.sleep(1)
+        driver.quit()
+        return True
+    except NoSuchElementException:
+        return False
+    
+    
