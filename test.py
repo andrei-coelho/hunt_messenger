@@ -4,12 +4,12 @@ from modules.helper import api, log
 conta = {
           "nome":"Andrei Coelho",
           "email":"andreifcoelho@gmail.com",
-          "senha":"*****",
+          "senha":"******",
           "msgs":[
               {
-                "nome":"Gu",
-                "id_fb":"gufeitosacoelho",
-                "msg":"Fala Gu! Eu sou o Hunter! Um robô desenvolvido pelo Andrei! Ele pediu para mandar uma mensagem para vc... Está preparado? La vai... 'Vc é uma pessoa chata'. Abraço!"
+                "nome":"Diego",
+                "id_fb":"diego.cheung.9",
+                "msg":"Fala Diegão! Eu sou o Hunter! Um robô desenvolvido pelo Andrei! Ele pediu para mandar uma mensagem para vc... Está preparado? La vai... 'Vc é uma pessoa chata'. Abraço!"
               }
           ]
         }
